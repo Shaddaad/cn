@@ -7,6 +7,9 @@ ftp
   - client.c
   - server.c
   - demo.txt
+  - ftpnew
+      - client.c
+      - server.c
 
 leakyb
   - leaky-1-wc.c
@@ -37,10 +40,16 @@ sp  (socket programming)
   - TCP
     - client.c
     - server.c
+    - tcpnew
+       - client.c
+       - server.c
   
   - UDP
     - client.c
     - server.c
+    - udpnew
+       - client.c
+       - server.c
 
  tsa     (time server application)
    - client.c
