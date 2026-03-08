@@ -1,4 +1,4 @@
-lab/(enter file name)
+cn-c1p.pages.dev/lab/(enter file name)
 
 dvr
   - dvr.c
