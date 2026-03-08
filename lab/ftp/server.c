@@ -7,37 +7,64 @@
 #include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
+
 #define SERV_TCP_PORT 5035
 #define MAX 60
-int i, j, tem;
-char buff[4096], t;
+
+char buff[4096];
 FILE *f1;
-int main(int afg, char *argv)
+
+int main(int argc, char *argv[])
 {
-       int sockfd, newsockfd, clength;
-       struct sockaddr_in serv_addr,cli_addr;
-       char t[MAX], str[MAX];
-       strcpy(t,"exit");
-       sockfd=socket(AF_INET, SOCK_STREAM,0);
-       serv_addr.sin_family=AF_INET;
-       serv_addr.sin_addr.s_addr=INADDR_ANY;
-       serv_addr.sin_port=htons(SERV_TCP_PORT);
-       printf("\nBinded");
-       bind(sockfd,(struct sockaddr*)&serv_addr, sizeof(serv_addr));
-       printf("\nListening...");
-       listen(sockfd, 5);
-       clength=sizeof(cli_addr);
-       newsockfd=accept(sockfd,(struct sockaddr*) &cli_addr,&clength);
-       close(sockfd);
-       read(newsockfd, &str, MAX);
-       printf("\nClient message\n File Name : %s\n", str);
-       f1=fopen(str, "r");
-       while(fgets(buff, 4096, f1)!=NULL)
-       {
-            write(newsockfd, buff,MAX);
-            printf("\n");
-       }
-       fclose(f1);
-       printf("\nFile Transferred\n");
-       return 0;
+    int sockfd, newsockfd;
+    socklen_t clength;
+
+    struct sockaddr_in serv_addr, cli_addr;
+    char str[MAX];
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_port = htons(SERV_TCP_PORT);
+
+    printf("\nBinded");
+
+    bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
+
+    printf("\nListening...\n");
+
+    listen(sockfd, 5);
+
+    clength = sizeof(cli_addr);
+
+    newsockfd = accept(sockfd, (struct sockaddr*)&cli_addr, &clength);
+
+    close(sockfd);
+
+    read(newsockfd, str, MAX);
+
+    printf("\nClient message\nFile Name : %s\n", str);
+
+    f1 = fopen(str, "r");
+
+    if(f1 == NULL)
+    {
+        printf("File not found\n");
+        close(newsockfd);
+        return 0;
+    }
+
+    while(fgets(buff, sizeof(buff), f1) != NULL)
+    {
+        write(newsockfd, buff, strlen(buff));
+    }
+
+    fclose(f1);
+
+    printf("\nFile Transferred\n");
+
+    close(newsockfd);
+
+    return 0;
 }
