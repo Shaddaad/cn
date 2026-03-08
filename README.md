@@ -14,11 +14,11 @@ leakyb
   - leaky.c
   - leaky2.c
 
-lsr
+lsr     (link state routing)
   - link.c
   - link2.c
 
-swp
+swp    (sliding window protocol)
   - Go-Back-N
       - client.c
       - server.c
@@ -28,6 +28,7 @@ swp
   - Stop-N-Wait
       - client.c
       - server.c
+        
 SMTP
   - client.c
   - server.c
